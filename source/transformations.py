@@ -2,11 +2,9 @@ import numpy as np
 import quaternion
 import math
 
-from numba import jit
-from scipy.ndimage.filters import gaussian_filter1d
+from scipy.ndimage import gaussian_filter1d
 
 
-@jit
 def change_cf(ori, vectors):
     """
     Euler-Rodrigous formula v'=v+2s(rxv)+2rx(rxv)
@@ -92,10 +90,9 @@ class RandomHoriRotateSeq:
         self.i_f = input_format
         self.o_f = output_format
 
-    @jit
     def __call__(self, feature, target):
-        a = np.random.random() * 2 * np.math.pi
-        # print("Rotating by {} degrees", a/np.math.pi * 180)
+        a = np.random.random() * 2 * np.pi
+        # print("Rotating by {} degrees", a/np.pi * 180)
         t = np.array([np.cos(a), 0, 0, np.sin(a)])
 
         for i in range(len(self.i_f) - 1):
