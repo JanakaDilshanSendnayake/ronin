@@ -1,0 +1,37 @@
+[project]
+name = "ronin"
+version = "0.1.0"
+description = "RoNIN inertial navigation, updated for current NumPy/PyTorch, plus StopAwareGRU experiments"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "numpy>=2.0",
+    "scipy",
+    "pandas",
+    "h5py",
+    "numpy-quaternion",
+    "matplotlib",
+    "torch>=2.7",
+    "torchvision",
+    "tensorboardX",
+    "plyfile",
+    "tqdm",
+    "scikit-learn",
+]
+
+[project.optional-dependencies]
+# Only needed for source/baselines/baseline_ridi.py
+ridi = ["opencv-python"]
+
+[tool.uv]
+package = false
+
+# CUDA 12.8 wheels: needed for RTX 50xx (sm_120), still support RTX 20xx (sm_75).
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
